@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 
 
 public class Dashboard extends javax.swing.JFrame {
-
+ static Student student= new Student();
     public Dashboard() {
         initComponents();
     }
@@ -35,6 +35,7 @@ public class Dashboard extends javax.swing.JFrame {
         viewInfoButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("StudentForm");
         setResizable(false);
 
         departmentBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "BSc(Hons) Computing", "BSc(Hons) Hospitality", "BSc(Hons) Multimedia", "BSc CSIT", "BSc(Hons) Networking", "BBA", "BBS", "BIM" }));
@@ -175,6 +176,17 @@ public class Dashboard extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    void setValues(Student student){
+        firstNameTextField.setText(student.getfName());
+        lastNameTextField.setText(student.getlName());
+        addressTextField.setText(student.getAddress());
+        phoneTextField.setText(String.valueOf(student.getPhoneNumber()));
+        parentsNameTextField.setText(student.getParentsName());
+        parentsNumberTextField.setText(String.valueOf(student.getParentsNumber()));
+        departmentBox.setSelectedItem(student.getDepartment());
+        submitButton.setText("Update");
+        this.student=student;
+    }
     
     private Student getValues(){
         String firstName= firstNameTextField.getText();
@@ -184,8 +196,9 @@ public class Dashboard extends javax.swing.JFrame {
         String parentsName= parentsNameTextField.getText();
         long parentsNumber= Long.valueOf(parentsNumberTextField.getText());
         String department= departmentBox.getSelectedItem().toString();
-        return new Student(firstName, lastName, address, phoneNumber, parentsName, parentsNumber, department);
+        return new Student(this.student.getId(),firstName, lastName, address, phoneNumber, parentsName, parentsNumber, department);
     }
+    
     
     void showMessage(String message){
         JOptionPane.showMessageDialog(null, message);
@@ -200,13 +213,37 @@ public class Dashboard extends javax.swing.JFrame {
         }
     }
     
+    void update(Student student) throws Exception{
+       
+        if(submitButton.getText()=="Submit"){
+            setValues(student);  
+        }
+        if(submitButton.getText()=="Update"){
+            this.student = getValues();
+           
+            Database.update(this.student);
+           // submitButton.setText("Submit");
+        }
+    }
+    
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
+        if(submitButton.getText()== "Submit"){
         try {
             insert();
             new ViewDetails().setVisible(true);
             this.setVisible(false);
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+        }else if(submitButton.getText()=="Update"){
+            
+            try{
+                update(student);
+            new ViewDetails().setVisible(true);
+            this.setVisible(false);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
         }
     }//GEN-LAST:event_submitButtonActionPerformed
 

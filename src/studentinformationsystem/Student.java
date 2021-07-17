@@ -72,7 +72,8 @@ public class Student {
     
     public Student(){}
 
-    public Student(String fName, String lName, String address, long phoneNumber, String parentsName, long parentsNumber, String department) {
+        public Student(int id, String fName, String lName, String address, long phoneNumber, String parentsName, long parentsNumber, String department) {
+        this.id= id;
         this.fName = fName;
         this.lName = lName;
         this.address = address;
@@ -81,5 +82,15 @@ public class Student {
         this.parentsNumber = parentsNumber;
         this.department = department;
     }
+    
+//    public Student(String fName, String lName, String address, long phoneNumber, String parentsName, long parentsNumber, String department) {
+//        this.fName = fName;
+//        this.lName = lName;
+//        this.address = address;
+//        this.phoneNumber = phoneNumber;
+//        this.parentsName = parentsName;
+//        this.parentsNumber = parentsNumber;
+//        this.department = department;
+//    }
     
 }

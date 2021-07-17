@@ -6,6 +6,7 @@
 package studentinformationsystem;
 
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -59,8 +60,18 @@ public class ViewDetails extends javax.swing.JFrame {
         jScrollPane1.setViewportView(studentsTable);
 
         editButton.setText("Edit");
+        editButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editButtonActionPerformed(evt);
+            }
+        });
 
         removeButton.setText("Remove");
+        removeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeButtonActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Search:");
 
@@ -148,11 +159,65 @@ public class ViewDetails extends javax.swing.JFrame {
         }
     }
 
+        Student selectRow() throws Exception{
+            int selectedRow= studentsTable.getSelectedRow();
+            if(selectedRow != -1){
+                int studentId= (int) studentsTable.getValueAt(selectedRow, 0);
+                return Database.findOne(studentId);
+            }
+            return null;
+        }
+        
+        void showMessage(String message){
+        JOptionPane.showMessageDialog(null, message);
+    }
+        
+        void remove() throws Exception{
+            Student student = selectRow();
+            if(student != null){
+                int affectedRow = Database.remove(student.getId());
+                if(affectedRow > 0){
+                    showMessage("Successfully Removed!");
+                }else{
+                    showMessage("Failed!!");
+                }
+            }else{
+                showMessage("Id not found!!");
+            }
+        }
+        
+        void edit() throws Exception{
+            Student student = selectRow();
+            Dashboard dashboard = new Dashboard();
+            dashboard.setValues(student);
+            dashboard.setVisible(true);
+        }
+        
+        
+        
         
     private void backLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backLabelMouseClicked
         new Dashboard().setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_backLabelMouseClicked
+
+    private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
+        try {
+            remove();
+            display();
+        } catch (Exception ex) {
+           ex.printStackTrace();
+        }
+    }//GEN-LAST:event_removeButtonActionPerformed
+
+    private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
+        try {
+            edit();
+            this.setVisible(false);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_editButtonActionPerformed
 
     /**
      * @param args the command line arguments
