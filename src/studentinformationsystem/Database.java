@@ -2,6 +2,7 @@ package studentinformationsystem;
 
 import java.util.List;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -74,14 +75,7 @@ public class Database {
         pst.setLong(6, student.getParentsNumber());
         pst.setString(7, student.getDepartment());
         pst.setInt(8, student.getId());
-        System.out.println(student.getParentsName());
-        System.out.println(student.getId());
         int affectedRow = pst.executeUpdate();
-        if (affectedRow > 0) {
-            System.out.println("sucess");
-        } else {
-            System.out.println("Fail");
-        }
         return affectedRow;
     }
 
@@ -110,5 +104,28 @@ public class Database {
         student.setDepartment(rs.getString("Department"));
         return student;
 
+    }
+    
+        public static List<Student> search(String search)throws Exception{
+        List <Student> student= new ArrayList<>();
+        final String SEARCH_QUERY = "select * from student where id like ? or FirstName like ? or Department like ? ";
+        PreparedStatement pst= connect().prepareStatement(SEARCH_QUERY);
+        pst.setString(1, "%" + search + "%");
+        pst.setString(2, "%" + search + "%");
+        pst.setString(3, "%" + search + "%");
+        ResultSet rs= pst.executeQuery();
+        while(rs.next()){
+            Student std= new Student();
+            std.setId(rs.getInt("id"));
+            std.setfName(rs.getString("FirstName"));
+            std.setlName(rs.getString("LastName"));
+            std.setAddress(rs.getString("Address"));
+            std.setPhoneNumber(rs.getLong("PhoneNumber"));
+            std.setParentsName(rs.getString("ParentsName"));
+            std.setParentsNumber(rs.getLong("ParentsNumber"));
+            std.setDepartment(rs.getString("Department"));
+            student.add(std);
+        }
+        return student;
     }
 }

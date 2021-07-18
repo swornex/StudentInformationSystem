@@ -1,7 +1,5 @@
 
 package studentinformationsystem;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 
@@ -189,13 +187,13 @@ public class Dashboard extends javax.swing.JFrame {
     }
     
     private Student getValues(){
-        String firstName= firstNameTextField.getText();
-        String lastName = lastNameTextField.getText();
-        String address = addressTextField.getText();
-        long phoneNumber= Long.valueOf(phoneTextField.getText());
-        String parentsName= parentsNameTextField.getText();
-        long parentsNumber= Long.valueOf(parentsNumberTextField.getText());
-        String department= departmentBox.getSelectedItem().toString();
+        String firstName= firstNameTextField.getText().trim();
+        String lastName = lastNameTextField.getText().trim();
+        String address = addressTextField.getText().trim();
+        long phoneNumber= Long.valueOf(phoneTextField.getText().trim());
+        String parentsName= parentsNameTextField.getText().trim();
+        long parentsNumber= Long.valueOf(parentsNumberTextField.getText().trim());
+        String department= departmentBox.getSelectedItem().toString().trim();
         return new Student(this.student.getId(),firstName, lastName, address, phoneNumber, parentsName, parentsNumber, department);
     }
     
@@ -222,7 +220,7 @@ public class Dashboard extends javax.swing.JFrame {
             this.student = getValues();
            
             Database.update(this.student);
-           // submitButton.setText("Submit");
+          
         }
     }
     
@@ -233,7 +231,7 @@ public class Dashboard extends javax.swing.JFrame {
             new ViewDetails().setVisible(true);
             this.setVisible(false);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            showMessage(ex.getMessage());
         }
         }else if(submitButton.getText()=="Update"){
             
@@ -242,7 +240,7 @@ public class Dashboard extends javax.swing.JFrame {
             new ViewDetails().setVisible(true);
             this.setVisible(false);
         }catch(Exception ex){
-            ex.printStackTrace();
+            showMessage(ex.getMessage());
         }
         }
     }//GEN-LAST:event_submitButtonActionPerformed
@@ -253,7 +251,7 @@ public class Dashboard extends javax.swing.JFrame {
             new ViewDetails().setVisible(true);
             this.setVisible(false);
         } catch (Exception ex) {
-            Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+            showMessage(ex.getMessage());
         }
         
     }//GEN-LAST:event_viewInfoButtonActionPerformed
@@ -261,37 +259,7 @@ public class Dashboard extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Dashboard().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField addressTextField;
