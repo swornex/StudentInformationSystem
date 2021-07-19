@@ -44,7 +44,15 @@ public class ViewDetails extends javax.swing.JFrame {
             new String [] {
                 "Id", "Name", "Address", "Phone Num", "Parent's Name", "Parent's Num", "Department"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(studentsTable);
 
         searchTextField.addKeyListener(new java.awt.event.KeyAdapter() {

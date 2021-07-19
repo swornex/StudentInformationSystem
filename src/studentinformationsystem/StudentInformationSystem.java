@@ -14,8 +14,11 @@ public class StudentInformationSystem {
 
     public static void main(String[] args) {
         // TODO code application logic here
-        Dashboard dashboard = new Dashboard();
-        dashboard.setVisible(true);
+        new Theme().setTheme();
+        Login login = new Login();
+        login.setVisible(true);
+        
+        
         
     }
     
